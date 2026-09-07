@@ -4,52 +4,56 @@ export class EmployeePage {
     this.page = page;
 
     // PIM menu
-    this.pimMenu =
-      page.getByRole('link', { name: 'PIM' });
+    this.pimMenu = page.getByRole('link', { name: 'PIM' });
 
     // Employee Information heading
-    this.employeeInformationHeading =
-      page.getByRole('heading', {
-        name: 'Employee Information'
-      });
+    this.employeeInformationHeading = page.getByRole('heading', {
+      name: 'Employee Information'
+    });
 
     // Employee Name search field
-    this.employeeNameInput =
-      page.getByPlaceholder('Type for hints...').first();
+    this.employeeNameInput = page.getByPlaceholder('Type for hints...').first();
 
     // Search button
-    this.searchButton =
-      page.getByRole('button', {
-        name: 'Search'
-      });
+    this.searchButton = page.getByRole('button', {
+      name: 'Search'
+    });
 
     // Add Employee
-    this.addEmployeeButton =
-      page.getByRole('link', {
-        name: 'Add Employee'
-      });
+    this.addEmployeeButton = page.getByRole('link', {
+      name: 'Add Employee'
+    });
 
     // Add Employee heading
-    this.addEmployeeHeading =
-      page.getByRole('heading', {
-        name: 'Add Employee'
-      });
+    this.addEmployeeHeading = page.getByRole('heading', {
+      name: 'Add Employee'
+    });
+
+    // edit Employee 
+    this.johnRow = page.getByRole('row').filter({
+      hasText: 'john'
+    });
+
+
+    // Edit employee
+    this.editButton = this.johnRow.getByRole('button').first();
+
+    // Employee ID
+    this.employeeIdInput = page.locator('.oxd-input-group')
+      .filter({ hasText: 'Employee Id' })
+      .locator('input');
+
 
     // Create Employee fields
-    this.firstNameInput =
-      page.getByPlaceholder('First Name');
+    this.firstNameInput = page.getByPlaceholder('First Name');
 
-    this.middleNameInput =
-      page.getByPlaceholder('Middle Name');
+    this.middleNameInput = page.getByPlaceholder('Middle Name');
 
-    this.lastNameInput =
-      page.getByPlaceholder('Last Name');
+    this.lastNameInput = page.getByPlaceholder('Last Name');
 
     // Save button
-    this.saveButton =
-      page.getByRole('button', {
-        name: 'Save'
-      });
+    this.saveButton = page.getByRole('button', { name: 'Save' }).first();
+
   }
 
   // Open Employee List
@@ -84,6 +88,17 @@ export class EmployeePage {
     await this.middleNameInput.fill(middleName);
 
     await this.lastNameInput.fill(lastName);
+
+    await this.saveButton.click();
+  }
+
+  // edit employee
+  async editEmployee() {
+
+    await this.editButton.click();
+    // await this.employeeIdInput.click();
+
+    await this.employeeIdInput.fill('12345');
 
     await this.saveButton.click();
   }

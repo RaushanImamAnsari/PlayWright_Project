@@ -19,6 +19,10 @@ export default defineConfig({
 
     headless: true,
 
+    launchOptions: {
+      args: ['--start-maximized']
+    },
+
     screenshot: 'only-on-failure',
 
     trace: 'on-first-retry'
