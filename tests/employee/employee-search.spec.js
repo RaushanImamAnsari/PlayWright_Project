@@ -1,19 +1,10 @@
-import { test, expect } from '@playwright/test';
+import { test, expect } from '../../fixtures/test-fixtures.js';
 
-import { LoginPage } from '../../pages/LoginPage.js';
 import { EmployeePage } from '../../pages/EmployeePage.js';
 
-import users from '../../test-data/users.json';
+test('search employee from employee list', async ({ loggedInPage }) => {
 
-test('search employee from employee list', async ({ page }) => {
-
-  const loginPage = new LoginPage(page);
-  const employeePage = new EmployeePage(page);
-
-  await loginPage.loginAsAdmin(
-    users.admin.username,
-    users.admin.password
-  );
+  const employeePage = new EmployeePage(loggedInPage);
 
   await employeePage.openEmployeeList();
 

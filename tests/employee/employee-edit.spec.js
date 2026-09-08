@@ -1,19 +1,10 @@
-import { test, expect } from '@playwright/test';
+import { test, expect } from '../../fixtures/test-fixtures.js';
 
-import { LoginPage } from '../../pages/LoginPage.js';
 import { EmployeePage } from '../../pages/EmployeePage.js';
 
-import users from '../../test-data/users.json';
+test('edit existing employee', async ({ loggedInPage }) => {
 
-test('edit existing employee', async ({ page }) => {
-
-  const loginPage = new LoginPage(page);
-  const employeePage = new EmployeePage(page);
-
-  await loginPage.loginAsAdmin(
-    users.admin.username,
-    users.admin.password
-  );
+  const employeePage = new EmployeePage(loggedInPage);
 
   await employeePage.openEmployeeList();
 
@@ -22,6 +13,7 @@ test('edit existing employee', async ({ page }) => {
   await employeePage.editEmployee();
 
   await expect(
-    page.getByText('Successfully Updated')
+    loggedInPage.getByText('Successfully Updated')
   ).toBeVisible();
+
 });
