@@ -1,19 +1,12 @@
-import { test, expect } from '@playwright/test';
-import { LoginPage } from '../../pages/LoginPage.js';
+import { test, expect } from '../../fixtures/test-fixtures.js';
+
 import { DashboardPage } from '../../pages/DashboardPage.js';
-import users from '../../test-data/users.json';
 
-test('verify OrangeHRM dashboard', async ({ page }) => {
+test('verify OrangeHRM dashboard', async ({ loggedInPage }) => {
 
-  const loginPage = new LoginPage(page);
-  const dashboardPage = new DashboardPage(page);
+  const dashboardPage = new DashboardPage(loggedInPage);
 
-  await loginPage.loginAsAdmin(
-    users.admin.username,
-    users.admin.password
-  );
-
-  await expect(page).toHaveURL(/dashboard/);
+  await expect(loggedInPage).toHaveURL(/dashboard/);
 
   await expect(
     dashboardPage.dashboardHeading
@@ -30,4 +23,5 @@ test('verify OrangeHRM dashboard', async ({ page }) => {
   await expect(
     dashboardPage.quickLaunch
   ).toBeVisible();
+
 });
