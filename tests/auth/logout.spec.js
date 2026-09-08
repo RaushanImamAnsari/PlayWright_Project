@@ -15,11 +15,8 @@ test('successful OrangeHRM logout', async ({ page }) => {
 
   await dashboardPage.logout();
 
-  await expect(
-    loginPage.usernameInput
-  ).toBeVisible();
+  await expect( loginPage.usernameInput ).toBeVisible();
 
-  await expect(
-    loginPage.passwordInput
-  ).toBeVisible();
+  await expect( loginPage.passwordInput ).toBeVisible();
+  
 });
