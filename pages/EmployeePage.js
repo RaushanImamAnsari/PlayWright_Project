@@ -1,105 +1,71 @@
 export class EmployeePage {
-
   constructor(page) {
     this.page = page;
-
-    // PIM menu
     this.pimMenu = page.getByRole('link', { name: 'PIM' });
-
-    // Employee Information heading
-    this.employeeInformationHeading = page.getByRole('heading', {
-      name: 'Employee Information'
-    });
-
-    // Employee Name search field
+    this.employeeInformationHeading = page.getByRole('heading', { name: 'Employee Information' });
+    this.addEmployeeButton = page.getByRole('button', { name: 'Add' });
+    this.addEmployeeHeading = page.getByRole('heading', { name: 'Add Employee' });
     this.employeeNameInput = page.getByPlaceholder('Type for hints...').first();
-
-    // Search button
-    this.searchButton = page.getByRole('button', {
-      name: 'Search'
-    });
-
-    // Add Employee
-    this.addEmployeeButton = page.getByRole('link', {
-      name: 'Add Employee'
-    });
-
-    // Add Employee heading
-    this.addEmployeeHeading = page.getByRole('heading', {
-      name: 'Add Employee'
-    });
-
-    // edit Employee 
-    this.johnRow = page.getByRole('row').filter({
-      hasText: 'john'
-    });
-
-
-    // Edit employee
-    this.editButton = this.johnRow.getByRole('button').first();
-
-    // Employee ID
-    this.employeeIdInput = page.locator('.oxd-input-group')
-      .filter({ hasText: 'Employee Id' })
-      .locator('input');
-
-
-    // Create Employee fields
+    this.employeeIdInput = page.locator('.oxd-input-group').filter({ hasText: 'Employee Id' }).locator('input');
     this.firstNameInput = page.getByPlaceholder('First Name');
-
     this.middleNameInput = page.getByPlaceholder('Middle Name');
-
     this.lastNameInput = page.getByPlaceholder('Last Name');
-
-    // Save button
+    this.searchButton = page.getByRole('button', { name: 'Search' });
+    this.resetButton = page.getByRole('button', { name: 'Reset' });
     this.saveButton = page.getByRole('button', { name: 'Save' }).first();
-
+    this.cancelButton = page.getByRole('button', { name: 'Cancel' });
+    this.requiredFieldErrors = page.locator('.oxd-input-field-error-message');
+    this.noRecordsFound = page.getByText('No Records Found');
+    this.successMessage = page.locator('.oxd-toast-content');
   }
 
-  // Open Employee List
+  employeeRow(value) {
+    return this.page.getByRole('row').filter({ hasText: value });
+  }
+
   async openEmployeeList() {
-
-    await this.pimMenu.click();
-
+    await this.page.goto('/web/index.php/pim/viewEmployeeList');
     await this.employeeInformationHeading.waitFor();
   }
 
-  // Search Employee
-  async searchEmployee(name) {
-
-    await this.employeeNameInput.fill(name);
-
-    await this.searchButton.click();
-  }
-
-  // Open Add Employee
   async openAddEmployee() {
-
-    await this.addEmployeeButton.click();
-
+    await this.page.goto('/web/index.php/pim/addEmployee');
     await this.addEmployeeHeading.waitFor();
   }
 
-  // Create Employee
-  async createEmployee(firstName, middleName, lastName) {
-
+  async createEmployee({ firstName, middleName = '', lastName, employeeId }) {
     await this.firstNameInput.fill(firstName);
-
     await this.middleNameInput.fill(middleName);
-
     await this.lastNameInput.fill(lastName);
+
+    if (employeeId) {
+      await this.employeeIdInput.fill(employeeId);
+    }
 
     await this.saveButton.click();
   }
 
-  // edit employee
-  async editEmployee() {
+  async searchByName(name) {
+    await this.employeeNameInput.fill(name);
+    const suggestion = this.page.locator('.oxd-autocomplete-option').filter({ hasText: name }).first();
+    await suggestion.waitFor();
+    await suggestion.click();
+    await this.searchButton.click();
+  }
 
-    await this.editButton.click();
-    // await this.employeeIdInput.click();
+  async searchByEmployeeId(employeeId) {
+    await this.employeeIdInput.fill(employeeId);
+    await this.searchButton.click();
+  }
 
-    await this.employeeIdInput.fill('12345');
+  async searchForMissingEmployee(name) {
+    await this.employeeNameInput.fill(name);
+    await this.searchButton.click();
+  }
 
+  async editEmployeeId(name, employeeId) {
+    await this.employeeRow(name).getByRole('button').first().click();
+    await this.employeeIdInput.fill(employeeId);
     await this.saveButton.click();
   }
 }

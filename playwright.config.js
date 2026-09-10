@@ -4,15 +4,18 @@ export default defineConfig({
 
   testDir: './tests',
 
-  fullyParallel: true,
+  // The public demo is shared and the PIM tests create records, so keep runs isolated.
+  fullyParallel: false,
+  workers: 1,
+  retries: 1,
 
-  timeout: 30000,
+  timeout: 60000,
 
   expect: {
-    timeout: 5000
+    timeout: 10000
   },
 
-  reporter: 'html',
+  reporter: [['html', { open: 'never' }], ['list']],
 
   use: {
     baseURL: 'https://opensource-demo.orangehrmlive.com',
@@ -25,7 +28,8 @@ export default defineConfig({
 
     screenshot: 'only-on-failure',
 
-    trace: 'on-first-retry'
+    trace: 'on-first-retry',
+    video: 'retain-on-failure'
   },
 
   projects: [

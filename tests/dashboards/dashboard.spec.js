@@ -1,27 +1,27 @@
 import { test, expect } from '../../fixtures/test-fixtures.js';
 
-import { DashboardPage } from '../../pages/DashboardPage.js';
+test.describe('Dashboard', () => {
+  test('shows the key dashboard widgets', async ({ loggedInPage, dashboardPage }) => {
+    await expect(loggedInPage).toHaveURL(/dashboard/);
+    await expect(dashboardPage.dashboardHeading).toBeVisible();
+    await expect(dashboardPage.timeAtWork).toBeVisible();
+    await expect(dashboardPage.myActions).toBeVisible();
+    await expect(dashboardPage.quickLaunch).toBeVisible();
+  });
 
-test('verify OrangeHRM dashboard', async ({ loggedInPage }) => {
+  test('shows the application sidebar navigation', async ({ loggedInPage, dashboardPage }) => {
+    await expect(dashboardPage.sideNavigation).toBeVisible();
+    await expect(dashboardPage.pimMenu).toBeVisible();
+  });
 
-  const dashboardPage = new DashboardPage(loggedInPage);
+  test('navigates to Employee Information from the PIM sidebar item', async ({ loggedInPage, dashboardPage, employeePage }) => {
+    await dashboardPage.openPim();
+    await expect(employeePage.employeeInformationHeading).toBeVisible();
+  });
 
-  await expect(loggedInPage).toHaveURL(/dashboard/);
-
-  await expect(
-    dashboardPage.dashboardHeading
-  ).toBeVisible();
-
-  await expect(
-    dashboardPage.timeAtWork
-  ).toBeVisible();
-
-  await expect(
-    dashboardPage.myActions
-  ).toBeVisible();
-
-  await expect(
-    dashboardPage.quickLaunch
-  ).toBeVisible();
-
+  test('keeps the dashboard available after refresh', async ({ loggedInPage, dashboardPage }) => {
+    await loggedInPage.reload();
+    await expect(dashboardPage.dashboardHeading).toBeVisible();
+    await expect(dashboardPage.assignLeaveQuickLaunch).toBeVisible();
+  });
 });
