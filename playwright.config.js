@@ -5,9 +5,9 @@ export default defineConfig({
   testDir: './tests',
 
   // The public demo is shared and the PIM tests create records, so keep runs isolated.
-  fullyParallel: false,
-  workers: 1,
-  retries: 1,
+  fullyParallel: true,
+  workers: 4,
+  retries: 0,
 
   timeout: 60000,
 
@@ -40,12 +40,12 @@ export default defineConfig({
       }
     },
 
-    {
-      name: 'firefox',
-      use: {
-        ...devices['Desktop Firefox']
-      }
-    },
+    // {
+    //   name: 'firefox',
+    //   use: {
+    //     ...devices['Desktop Firefox']
+    //   }
+    // },
 
     // {
     //   name: 'webkit',
