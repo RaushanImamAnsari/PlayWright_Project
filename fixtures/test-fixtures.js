@@ -24,7 +24,7 @@ export const test = base.extend({
     const loginPage = new LoginPage(page);
     const dashboardPage = new DashboardPage(page);
 
-    await loginPage.loginAsAdmin(users.admin.username, users.admin.password);
+    await loginPage.loginAsAdmin( users.admin.username, users.admin.password );
     await page.waitForURL(/dashboard/);
     await dashboardPage.dashboardHeading.waitFor();
 

@@ -3,9 +3,11 @@ import users from '../../test-data/users.json';
 
 test.describe('Authentication', () => {
   test('logs in with valid administrator credentials', async ({ page, loginPage, dashboardPage }) => {
+
     await loginPage.loginAsAdmin(users.admin.username, users.admin.password);
     await expect(page).toHaveURL(/dashboard/);
     await expect(dashboardPage.dashboardHeading).toBeVisible();
+    
   });
 
   test('shows an error for an invalid password', async ({ loginPage }) => {
