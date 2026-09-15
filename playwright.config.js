@@ -21,7 +21,7 @@ export default defineConfig({
   reporter: [['html', { open: 'never' }], ['list']],
 
   use: {
-    baseURL: process.env.baseURL,
+    baseURL: process.env.BASE_URL,
 
     headless: true,
 
