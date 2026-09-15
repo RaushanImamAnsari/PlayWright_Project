@@ -23,12 +23,6 @@ export class EmployeePage {
     return this.page.getByRole('row').filter({ hasText: value });
   }
 
-
-
-
-
-
-  
   async openEmployeeList() {
     await this.page.goto('/web/index.php/pim/viewEmployeeList');
     await this.employeeInformationHeading.waitFor();
